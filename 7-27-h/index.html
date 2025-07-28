@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='42' height='42' viewBox='0 0 42 42' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='42' height='42' rx='8' fill='%2300A3FF'/%3E%3Cpath d='M29.5 22C31.9853 22 34 20.2091 34 18C34 15.7909 31.9853 14 29.5 14C27.2982 14 25.432 15.5405 25.0601 17.653C24.7828 17.555 24.4891 17.5 24.1667 17.5C22.4178 17.5 21 18.9178 21 20.6667C21 20.899 21.0263 21.1274 21.0768 21.3499C20.3533 20.9169 19.4824 20.6667 18.5417 20.6667C15.7796 20.6667 13.5 22.9462 13.5 25.7083C13.5 28.4704 15.7796 30.75 18.5417 30.75H27' stroke='%230D1117' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M25 25L29 21L25 17' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CloudPioneers</title>
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Global CSS Styles -->
+    <style>
+      html { scroll-behavior: smooth; }
+      /* Scroll Animation Base Styles */
+      .js-scroll-anim {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+      }
+      .js-scroll-anim.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      /* Dialog styles */
+      dialog { transition: opacity 0.3s ease; }
+      dialog[open] { display: flex; }
+      dialog:not([open]) { pointer-events: none; opacity: 0; }
+    </style>
+
+    <!-- Tailwind CSS JIT Configuration -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'background': '#0D1117',
+              'primary': '#161B22',
+              'accent': '#00A3FF',
+              'text-primary': '#E6EDF3',
+              'text-secondary': '#7D8590',
+              'text-heading': '#FFFFFF',
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              heading: ['Sora', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-background text-text-primary font-sans antialiased">
+    
+    <!-- Main application container. All dynamic content is rendered here. -->
+    <div id="app-container"></div>
+    
+    <!-- Contact Form Modal Dialog. Its content is updated dynamically. -->
+    <dialog id="contact-modal" class="p-0 m-0 w-full h-full fixed inset-0 max-w-none max-h-none bg-transparent items-center justify-center backdrop:bg-background/80 backdrop:backdrop-blur-sm">
+        <div class="bg-primary border border-text-secondary/20 rounded-2xl w-full max-w-2xl shadow-2xl shadow-accent/10 relative m-auto">
+            <button data-close-modal class="absolute top-4 right-4 text-text-secondary hover:text-accent transition-colors rounded-full p-2 z-10" aria-label="Close form">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div id="modal-content" class="p-8 md:p-12">
+                <!-- Form content will be injected here by JavaScript -->
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Main Application Script -->
+    <script type="module">
+        // --- DATA STORE ---
+        // This section holds all the content for the website, equivalent to 'data.ts' and other data sources.
+        const services = [
+          {
+            id: 'modern-workspace',
+            title: 'Modern Workspace',
+            pageTitle: 'The Modern Workspace: Beyond Collaboration.',
+            introduction: "Your team is sharp, but their tools are dull. Outdated software running on aging on-premise servers creates a web of inefficiency. It's a constant cycle of slow load times, compatibility issues, and security patches that feels less like a workspace and more like a work-against.",
+            complication: "This isn't just an inconvenience; it's a trap. As your business grows, this rigid infrastructure can't keep up. It leads to lost hours, frustrated employees, and eventually, a costly emergency when the system inevitably fails. You're not just losing productivity; you're risking business continuity.",
+            solution: "We break the cycle by migrating you to a seamless Microsoft 365 ecosystem. We implement the right tier for your needs, often starting with Microsoft 365 Business Premium, which includes advanced security features out-of-the-box. The result is a unified platform where communication flows, collaboration is effortless, and your data is secure and accessible from anywhere.",
+            transformation: "The result is a fluid, intelligent environment where technology accelerates your work instead of hindering it. Your team gains the tools to innovate freely, backed by enterprise-grade security from Microsoft Defender for Business and a scalable foundation ready for future growth.",
+            cardImageUrl: 'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?q=80&w=800&auto=format&fit=crop',
+            imageUrl: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            deeperDive: {
+              keyFeatures: [
+                { title: 'Unified Communication Hub', replaces: "Fragmented chat apps, endless email chains, and separate video conferencing tools.", with: "Microsoft Teams as your central hub for chat, meetings, calls (with optional Teams Phone), and collaboration. Enjoy features like real-time transcription, background blur, and seamless file sharing within conversations." },
+                { title: 'Intelligent Document Management', replaces: "Local file servers, scattered USB drives, and the chaos of 'final_v2_final.docx'.", with: "Microsoft SharePoint and OneDrive for secure, cloud-native file storage. Benefit from co-authoring in real-time, automatic version history, granular permissions, and powerful search. We can also leverage Microsoft Syntex to apply content AI for document processing." },
+                { title: 'Streamlined Project & Task Management', replaces: "Whiteboards, sticky notes, and disparate project management software.", with: "Integrated tools like Microsoft Planner and To Do within Teams. Assign tasks, track progress, and manage deadlines in the same place you collaborate, ensuring nothing falls through the cracks." },
+                { title: 'Enterprise-Grade Email & Security', replaces: "Outdated on-premise Exchange servers with basic spam filtering.", with: "Exchange Online with a 99.9% uptime guarantee, protected by Exchange Online Protection (EOP) and advanced phishing/malware defense from Microsoft Defender for Office 365." },
+              ],
+              modernAdvantage: [
+                'Boosted Productivity: A single, unified platform reduces context-switching and streamlines workflows.',
+                'Enhanced Collaboration: Real-time co-authoring and integrated communication tools foster teamwork.',
+                'Advanced Security: Protect users, data, and devices with an integrated security suite from a single vendor.',
+                'Simplified IT Management: Consolidate vendors and manage your entire workspace from a single admin center, with device management via Microsoft Intune.',
+              ],
+              howItWorks: "We begin with a discovery workshop to understand your workflows. Next, we design a phased migration plan for your data and communications to Microsoft 365. We configure the environment for security and efficiency, then provide hands-on training to ensure your team hits the ground running.",
+              components: ['Microsoft 365 Business Premium', 'Microsoft Teams & SharePoint', 'Exchange Online', 'Microsoft Defender for Business', 'Microsoft Intune (MDM/MAM)', 'Data Migration Services', 'User Adoption & Training'],
+            },
+            cta: 'Build Your Modern Workspace',
+            faqs: [
+                { question: "What's the difference between Microsoft 365 Business Standard and Premium?", answer: "Business Standard provides the core Office apps and cloud services. Business Premium includes everything in Standard plus advanced cyber threat protection and device management. It adds services like Microsoft Defender for Business and Intune, which are crucial for securing a modern, remote workforce. We almost always recommend Premium for this reason." },
+                { question: "Is our data secure in the Microsoft Cloud?", answer: "Yes. Microsoft invests over a billion dollars annually in cybersecurity. We supplement this by configuring advanced security policies like Multi-Factor Authentication (MFA), Conditional Access, and data loss prevention (DLP) to meet your specific security and compliance needs." },
+            ]
+          },
+          {
+            id: 'ai-automation',
+            title: 'AI & Automation',
+            pageTitle: 'Intelligent Automation: Beyond Efficiency.',
+            introduction: "Are your best employees—in finance, HR, or operations—stuck performing repetitive, manual tasks? From chasing invoices to generating weekly reports, these processes drain resources, invite human error, and prevent your team from focusing on high-value, strategic work.",
+            complication: "This manual drag is more than just inefficient; it's a growth ceiling. It makes scaling your operations expensive and difficult. Every new client or project adds a proportional amount of administrative burden, limiting your potential and burning out your best talent.",
+            solution: "We deploy intelligent automation using Azure AI and the Microsoft Power Platform. We build smart systems that handle the mundane—from intelligently scanning documents to automating complex business processes—freeing your team to innovate and drive the business forward.",
+            transformation: "Your operations become streamlined and scalable. Tedious tasks are handled instantly and accurately by AI, providing your team with the time and data-driven insights they need to make smarter decisions, enhance customer service, and uncover new growth opportunities.",
+            cardImageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop',
+            imageUrl: 'https://images.unsplash.com/photo-1677756119517-756a188d2d94?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            deeperDive: {
+              keyFeatures: [
+                { title: 'Intelligent Document Processing', replaces: "Manually reading invoices, sifting through scanned contracts, or searching for information in PDFs.", with: "An AI-powered system using Azure AI Document Intelligence (OCR). We can even use Azure OpenAI Service to build a Retrieval-Augmented Generation (RAG) engine, creating a private 'Google' for your business that can instantly answer questions based on your company's own data." },
+                { title: 'Automated Business Workflows', replaces: "Manual data entry, copy-pasting between applications, and repetitive approval processes.", with: "Microsoft Power Automate to create 'flows' that connect your apps (like QuickBooks, Salesforce, etc.) and services. Automate everything from saving email attachments to SharePoint, to complex, multi-stage approval workflows." },
+                { title: 'Custom Business Applications', replaces: "Outdated spreadsheets, paper forms, or expensive off-the-shelf software that doesn't fit.", with: "Microsoft Power Apps to build low-code/no-code custom applications for your specific needs, like inventory management, site inspections, or employee onboarding, accessible on any device." },
+                { title: 'Interactive Data Dashboards', replaces: "Static, out-of-date reports and tedious data compilation in Excel.", with: "Microsoft Power BI to connect to your data sources and create stunning, interactive dashboards. Gain real-time insights, drill down into data, and make informed decisions instantly." },
+              ],
+              modernAdvantage: [
+                'Unlock Your Data: Make scanned documents and unstructured data fully searchable and useful.',
+                'Massive Time Savings: Automate tasks that take hours and reduce them to minutes, freeing up valuable employee time.',
+                'Reduced HumanError: Automation ensures consistency and accuracy in data entry and processing.',
+                'Empowered Employees: Enable non-technical staff to build solutions and automate their own workflows.',
+              ],
+              howItWorks: "Our process starts with identifying your most impactful automation opportunities. We then design and build robust solutions using Azure AI and the Power Platform, integrating with your existing systems. We test thoroughly and deploy, providing documentation and training to empower your team.",
+              components: ['Microsoft Power Platform', 'Azure AI Document Intelligence', 'Azure OpenAI Service (RAG)', 'Power Automate & Power Apps', 'Power BI', 'AI Builder', 'Custom API Connectors'],
+            },
+            industryExamples: [
+              { industry: "Professional Services", useCase: "Automate client onboarding by using Power Automate to create dedicated SharePoint sites, send welcome emails, and assign introductory tasks in Planner whenever a new client is marked 'won' in your CRM." },
+              { industry: "Retail & E-commerce", useCase: "Build a Power BI dashboard to track sales against inventory in real-time. Use AI-powered forecasting to predict stock needs and prevent stockouts of popular items, directly impacting your bottom line." },
+              { industry: "Manufacturing", useCase: "Build a Power App for quality control inspections on the factory floor, allowing workers to log issues with photos, which automatically creates a ticket in the maintenance system." },
+              { industry: "Finance", useCase: "Automatically process invoices by extracting key information (vendor, amount, due date) with Azure AI Document Intelligence and routing them for approval via a Power Automate workflow." },
+            ],
+            cta: 'Automate Your Business',
+            faqs: [
+                { question: "Do we need to be developers to use this?", answer: "No, and that's the beauty of it. The Microsoft Power Platform is designed for 'citizen developers.' While we build the core, complex solutions, we can also train your power users to create their own simple automations and reports, fostering a culture of innovation." },
+                { question: "Is this only for large enterprises?", answer: "Not at all. Automation provides immense value to SMBs by allowing them to scale operations without proportionally increasing headcount. We can design and implement affordable, high-impact AI solutions tailored for any size business." },
+            ]
+          },
+          {
+            id: 'infrastructure-modernization',
+            title: 'Infrastructure Modernization',
+            pageTitle: 'Cloud Infrastructure: Beyond Storage.',
+            introduction: "Is your business still anchored by on-premise servers? The costs of maintenance, the risks of hardware failure, the constant worry about ransomware, and the limitations on scalability and remote access are holding you back in a cloud-first world.",
+            complication: "That aging hardware isn't just a cost center; it's a ticking time bomb. A single hardware failure can lead to days of downtime and lost revenue. A security breach could be catastrophic. You're constantly pouring money into a depreciating asset that actively increases your business risk.",
+            solution: "We architect and execute a seamless transition to Microsoft Azure. This shifts your spending from unpredictable Capital Expenditure (CapEx) on hardware to a predictable, scalable Operational Expenditure (OpEx) model. We provide a foundation that is not only more secure and resilient but also infinitely scalable and cost-effective.",
+            transformation: "Your infrastructure becomes a strategic asset, not a liability. You gain enterprise-grade security and reliability, the agility to scale on demand, and a predictable, operational expense model. You're free from the hardware lifecycle and empowered to focus on your core business.",
+            cardImageUrl: 'https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?q=80&w=800&auto=format&fit=crop',
+            imageUrl: 'https://images.unsplash.com/photo-1590955359339-236d3289758e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            deeperDive: {
+              keyFeatures: [
+                { title: 'Server & Application Migration', replaces: "Physical on-premise servers requiring maintenance, cooling, and physical security.", with: "Azure Virtual Machines and App Services. We use proven methodologies and tools like Azure Migrate to 'lift and shift' or re-architect your servers and applications to run efficiently in the Azure cloud." },
+                { title: 'Cloud-Native Storage & Files', replaces: "On-premise file servers and SANs with limited capacity and high maintenance.", with: "Azure Storage solutions like Azure Files for traditional file shares and Blob Storage for object data. Highly available, durable, and scalable storage that you only pay for as you use it." },
+                { title: 'Advanced Backup & Disaster Recovery', replaces: "Tape backups, external hard drives, and slow, unreliable recovery processes.", with: "Azure Backup for secure, offsite, and automated backups. For critical systems, we implement Azure Site Recovery, replicating entire servers to a secondary Azure region for near-instant failover in a disaster." },
+                { title: 'Cloud Security & Threat Detection', replaces: "A simple firewall and basic antivirus protection.", with: "Microsoft Defender for Cloud for a comprehensive view of your security posture and threat protection. We can also implement Microsoft Sentinel (a cloud-native SIEM) for proactive threat hunting." },
+              ],
+              modernAdvantage: [
+                'Shift from CapEx to OpEx: Eliminate large hardware purchases and move to a predictable monthly cost.',
+                'Enhanced Security: Leverage Microsoft\'s multi-billion dollar security investment for enterprise-grade protection.',
+                'Business Resiliency: High availability and robust disaster recovery solutions minimize downtime.',
+                'Global Scalability: Instantly scale your computing resources up or down to meet business demand.',
+              ],
+              howItWorks: "We begin with a comprehensive assessment of your current infrastructure using tools like Azure Migrate. We then design a tailored Azure migration strategy (e.g., rehost, refactor, rearchitect). The migration is performed in carefully planned phases to minimize disruption, followed by ongoing optimization and management.",
+              components: ['Microsoft Azure IaaS & PaaS', 'Azure Migrate', 'Azure Virtual Machines', 'Azure Storage & Networking', 'Azure Backup & Site Recovery', 'Microsoft Defender for Cloud', 'Microsoft Sentinel'],
+            },
+            cta: 'Modernize Your Infrastructure',
+             faqs: [
+                { question: "Is the cloud really cheaper than our current servers?", answer: "When you factor in the total cost of ownership—including hardware refreshes, maintenance, power, cooling, and staff time—the cloud is often significantly more cost-effective. The pay-as-you-go model of Azure means you avoid large capital expenses and only pay for what you use." },
+                { question: "How do you ensure our data is secure in Azure?", answer: "Azure's security is world-class. We build on that by implementing a 'least privilege' access model using Microsoft Entra ID. We also configure Microsoft Defender for Cloud to continuously monitor for threats and vulnerabilities, and can even set up Microsoft Sentinel (a cloud-native SIEM) for advanced threat hunting." },
+            ]
+          },
+          {
+            id: 'work-from-anywhere',
+            title: 'Work From Anywhere',
+            pageTitle: 'Secure Access: Beyond the VPN.',
+            introduction: "Your team needs to work from anywhere, but traditional VPNs are slow, clunky, and a massive security risk. Once a hacker is on your VPN, they have broad access to your entire network, making them a prime target for cyberattacks.",
+            complication: "Relying on a VPN creates a false sense of security. It's like having a single key that unlocks every door in your building. One compromised password or device can lead to a full-scale data breach, exposing sensitive company and client information and putting your reputation on the line.",
+            solution: "We implement a modern Zero Trust Network Access (ZTNA) solution using the Cloudflare Zero Trust platform. This approach ditches the outdated VPN model entirely. Instead of trusting users on a network, we verify every single connection request to every application, ensuring only the right people get access to the right data.",
+            transformation: "Your remote access becomes both seamless and hyper-secure. Your team gets faster, more reliable connections to the tools they need via the lightweight Cloudflare WARP client, while your attack surface is drastically reduced. You can confidently enable a 'work from anywhere' culture without compromising on security.",
+            cardImageUrl: 'https://images.unsplash.com/photo-1586953208448-3073a032d16c?q=80&w=800&auto=format&fit=crop',
+            imageUrl: 'https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            deeperDive: {
+              keyFeatures: [
+                { title: 'VPN-less Application Access', replaces: "Slow, cumbersome, and insecure corporate VPNs.", with: "Cloudflare Zero Trust to provide secure, direct access to your internal applications (web apps, SSH, RDP) without connecting users to the entire corporate network." },
+                { title: 'Granular Access Policies', replaces: "Broad network access where one breach compromises everything.", with: "Context-aware access policies. Grant access based on user identity (via Microsoft Entra ID integration), device posture, location, and more. A contractor can be given access to a single app, not the whole network." },
+                { title: 'Secure Web Gateway (SWG)', replaces: "Basic web filters that fail to stop modern threats.", with: "Cloudflare's global network to protect users from malware, phishing, and other internet threats, no matter where they are connecting from. All traffic is filtered before it reaches the user." },
+                { title: 'Faster User Experience', replaces: "Traffic backhauled through a central VPN concentrator, creating bottlenecks.", with: "Direct-to-application connections through Cloudflare's global edge network, resulting in a faster, more responsive experience for your remote and hybrid teams." },
+              ],
+              modernAdvantage: [
+                'Dramatically Reduced Attack Surface: Users connect to applications, not networks, preventing lateral movement by attackers.',
+                'Superior Security: Every request is verified, protecting against a wide range of modern cyber threats.',
+                'Seamless User Experience: Faster, more reliable connections than traditional VPNs, with no clunky software to manage.',
+                'Simplified Management: A single control plane to manage access policies for all your users and applications.',
+              ],
+              howItWorks: "We start by inventorying your applications and defining user groups. We then deploy the Cloudflare WARP agent to your devices and connect your applications to the Cloudflare network. Finally, we craft and enforce granular access policies with Microsoft Entra ID, and methodically decommission your legacy VPN.",
+              components: ['Cloudflare Zero Trust Platform', 'Cloudflare WARP Client', 'Secure Web Gateway (SWG)', 'ZTNA Tunnels', 'Microsoft Entra ID Integration', 'Device Posture Checks', 'Policy Implementation & Rollout'],
+            },
+            cta: 'Secure Your Workforce',
+            faqs: [
+                { question: "Is this difficult for our employees to use?", answer: "No, it's significantly easier. Once the lightweight Cloudflare WARP agent is installed on their device, it works silently in the background. Users simply access their applications through a secure portal or directly via their browser, without the hassle of connecting and disconnecting from a VPN." },
+                { question: "Does this work for applications still on our on-premise servers?", answer: "Yes. Cloudflare's connector technology allows you to securely expose on-premise applications to authorized users through the Zero Trust platform without opening inbound ports on your firewall, making it a perfect solution for hybrid environments." },
+            ]
+          },
+        ];
+
+        const serviceIcons = {
+            'modern-workspace': `<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-1.621-1.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h9.75a2.25 2.25 0 012.25 2.25z" /></svg>`,
+            'ai-automation': `<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 01-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 013.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 013.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 01-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.554L16.5 21.75l-.398-1.196c-.144-.433-.433-.722-.866-.866l-1.196-.398 1.196-.398c.433-.144.722-.433.866-.866l.398-1.196.398 1.196c.144.433.433.722.866.866l1.196.398-1.196.398c-.433-.144-.722-.433-.866-.866z" /></svg>`,
+            'infrastructure-modernization': `<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 13.036h.008v.008h-.008v-.008z" /></svg>`,
+            'work-from-anywhere': `<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A11.953 11.953 0 0112 16.5c-2.998 0-5.74-1.1-7.843-2.918m15.686-5.834A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0l-4.545 4.545m-9.17-9.17L3.25 12.5" /></svg>`
+        };
+
+        const pageSectionIcons = {
+            problem: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 pointer-events-none"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.007H12v-.007z" /></svg>`,
+            complication: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 pointer-events-none"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>`,
+            solution: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 pointer-events-none"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.311a15.045 15.045 0 01-7.5 0C4.508 19.659 2.25 16.185 2.25 12c0-4.185 2.258-7.659 6.01-8.533m7.5 15.066C21.492 19.659 23.25 16.185 23.25 12c0-4.185-2.258-7.659-6.01-8.533" /></svg>`,
+            transformation: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 pointer-events-none"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>`,
+        };
+        
+        // --- TEMPLATING / COMPONENT FUNCTIONS ---
+        // These functions return HTML strings, mimicking React components.
+
+        const Logo = () => `<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="42" height="42" rx="8" fill="#00A3FF"/><path d="M29.5 22C31.9853 22 34 20.2091 34 18C34 15.7909 31.9853 14 29.5 14C27.2982 14 25.432 15.5405 25.0601 17.653C24.7828 17.555 24.4891 17.5 24.1667 17.5C22.4178 17.5 21 18.9178 21 20.6667C21 20.899 21.0263 21.1274 21.0768 21.3499C20.3533 20.9169 19.4824 20.6667 18.5417 20.6667C15.7796 20.6667 13.5 22.9462 13.5 25.7083C13.5 28.4704 15.7796 30.75 18.5417 30.75H27" stroke="#0D1117" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M25 25L29 21L25 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+        const Header = () => `
+            <header id="main-header" class="bg-background/80 backdrop-blur-md sticky top-0 z-50 border-b border-primary">
+                <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+                    <button data-navigate="home" class="flex items-center gap-3 text-2xl font-bold text-text-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm">
+                        ${Logo()}
+                        <span class="font-heading tracking-wide text-2xl">Cloud Pioneers</span>
+                    </button>
+                    <nav class="hidden md:flex items-center space-x-10">
+                        <a href="#" data-navigate="home" class="text-text-secondary hover:text-accent transition-colors duration-300">Home</a>
+                        <div class="relative" id="solutions-desktop-menu">
+                            <button class="text-text-secondary hover:text-accent transition-colors duration-300 flex items-center gap-1">
+                                Solutions <svg class="w-4 h-4 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                            </button>
+                            <div class="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-64 bg-primary rounded-md shadow-lg border border-white/10 p-2 z-10 hidden">
+                                ${services.map(service => `<button data-navigate="${service.id}" class="w-full text-left px-4 py-2 text-text-secondary hover:bg-background hover:text-accent rounded-md transition-colors duration-200">${service.title}</button>`).join('')}
+                            </div>
+                        </div>
+                        <a href="#contact" data-navigate="home" data-anchor="contact" class="text-text-secondary hover:text-accent transition-colors duration-300">Contact</a>
+                    </nav>
+                    <div class="hidden md:block">
+                        <button data-open-modal class="border border-accent text-accent font-bold py-2 px-6 rounded-md text-sm hover:bg-accent hover:text-background transition-all duration-300">Get Assessment</button>
+                    </div>
+                    <div class="md:hidden">
+                        <button id="mobile-menu-toggle" class="text-text-secondary hover:text-accent focus:outline-none" aria-label="Toggle menu">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="mobile-menu" class="md:hidden bg-primary hidden">
+                  <nav class="flex flex-col items-center space-y-6 px-6 py-8">
+                    <a href="#" data-navigate="home" class="mobile-nav-link text-lg text-text-secondary hover:text-accent transition-colors duration-300">Home</a>
+                    <div>
+                        <button id="solutions-mobile-toggle" class="text-lg text-text-secondary hover:text-accent transition-colors duration-300 flex items-center gap-1">
+                            Solutions <svg class="w-5 h-5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div id="solutions-mobile-dropdown" class="mt-4 w-full bg-background rounded-md p-2 flex-col items-center space-y-2 hidden">
+                            ${services.map(service => `<button data-navigate="${service.id}" class="mobile-nav-link w-full text-center px-4 py-3 text-text-secondary hover:bg-primary hover:text-accent rounded-md transition-colors duration-200">${service.title}</button>`).join('')}
+                        </div>
+                    </div>
+                    <a href="#contact" data-navigate="home" data-anchor="contact" class="mobile-nav-link text-lg text-text-secondary hover:text-accent transition-colors duration-300">Contact</a>
+                    <button data-open-modal class="mobile-nav-link mt-6 border border-accent text-accent font-bold py-3 px-8 rounded-md text-base hover:bg-accent hover:text-background transition-all duration-300">Get Assessment</button>
+                  </nav>
+                </div>
+            </header>
+        `;
+        
+        const Hero = () => `
+            <section class="relative py-40 md:py-52 text-center js-scroll-anim">
+                <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1554141323-c454e3ab4764?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"></div>
+                <div class="absolute inset-0 bg-background opacity-60"></div>
+                <div class="container mx-auto px-4 sm:px-6 relative z-10">
+                    <div class="max-w-4xl mx-auto">
+                        <h1 class="font-heading text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-text-heading">Stop Fighting Your IT.<br/><span class="text-accent">Make It Your Edge.</span></h1>
+                        <p class="mt-8 text-lg md:text-xl max-w-3xl mx-auto text-text-primary">We architect modern, secure, and intelligent IT systems that save money, reduce risk, and future-proof your business.</p>
+                        <div class="mt-12">
+                            <a href="#solutions" data-anchor-link class="bg-accent hover:bg-opacity-80 text-background font-bold py-4 px-10 rounded-md text-lg md:text-xl transition-all duration-300 transform hover:scale-105">Explore Solutions</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        const WhyUs = () => `
+            <section class="py-20 sm:py-24 bg-primary js-scroll-anim">
+                <div class="container mx-auto px-4 sm:px-6">
+                     <h2 class="text-center font-heading text-3xl md:text-4xl font-bold text-text-heading mb-16">Why Modernize Now? The Risks Are Real.</h2>
+                    <div class="grid md:grid-cols-3 gap-10 md:gap-16">
+                        <div class="text-center p-6">
+                            <p class="font-heading text-6xl md:text-7xl font-extrabold text-accent">43%</p>
+                            <h3 class="mt-4 text-xl text-text-heading">of cyber attacks target small businesses.</h3>
+                            <p class="text-sm text-text-secondary mt-1">Source: Accenture</p>
+                        </div>
+                        <div class="text-center p-6">
+                            <p class="font-heading text-6xl md:text-7xl font-extrabold text-accent">7.5</p>
+                            <h3 class="mt-4 text-xl text-text-heading">hours per week lost to manual, repetitive tasks.</h3>
+                            <p class="text-sm text-text-secondary mt-1">Source: Asana</p>
+                        </div>
+                        <div class="text-center p-6">
+                            <p class="font-heading text-6xl md:text-7xl font-extrabold text-accent">60%</p>
+                            <h3 class="mt-4 text-xl text-text-heading">of SMBs fail within 6 months of a data breach.</h3>
+                            <p class="text-sm text-text-secondary mt-1">Source: Cybersecurity Ventures</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="py-24 sm:py-32 js-scroll-anim">
+                <div class="container mx-auto px-4 sm:px-6">
+                    <div class="text-center max-w-3xl mx-auto">
+                        <h2 class="font-heading text-4xl md:text-5xl font-extrabold text-text-heading">Is Your Technology a Liability?</h2>
+                        <p class="mt-6 text-lg md:text-xl text-text-secondary">If you recognize these symptoms, you're not just losing efficiency—you're increasing risk.</p>
+                    </div>
+                    <div class="mt-20 grid md:grid-cols-3 gap-8">
+                         <div class="bg-primary border border-text-secondary/10 p-8 rounded-2xl shadow-lg">
+                            <div class="bg-background text-accent w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.007H12v-.007z"></path></svg>
+                            </div>
+                            <h3 class="font-heading text-2xl font-bold text-text-heading mb-4">Security Blind Spots</h3>
+                            <p class="text-text-secondary text-lg">Your simple firewall and basic antivirus aren't enough. You're exposed to ransomware, phishing, and data breaches that could be catastrophic.</p>
+                        </div>
+                        <div class="bg-primary border border-text-secondary/10 p-8 rounded-2xl shadow-lg">
+                            <div class="bg-background text-accent w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"></path></svg>
+                            </div>
+                            <h3 class="font-heading text-2xl font-bold text-text-heading mb-4">Scattered Data & Tools</h3>
+                            <p class="text-text-secondary text-lg">Information lives in email, on local drives, in 10 different apps. This kills productivity and makes finding anything a nightmare.</p>
+                        </div>
+                        <div class="bg-primary border border-text-secondary/10 p-8 rounded-2xl shadow-lg">
+                            <div class="bg-background text-accent w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"></path></svg>
+                            </div>
+                            <h3 class="font-heading text-2xl font-bold text-text-heading mb-4">Growth Blockers</h3>
+                            <p class="text-text-secondary text-lg">Your aging servers can't keep up. Onboarding new employees is slow and enabling secure remote work feels impossible. Your IT is holding you back.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        const Process = () => `
+            <section class="py-24 sm:py-32 bg-primary js-scroll-anim">
+                <div class="container mx-auto px-4 sm:px-6">
+                    <div class="text-center max-w-4xl mx-auto">
+                        <h2 class="font-heading text-4xl md:text-5xl font-extrabold text-text-heading">AI Doesn't Have to Be Complicated</h2>
+                        <p class="mt-6 text-lg md:text-xl text-text-secondary">We build practical, affordable AI systems that solve real business problems. No PhD required. Here's what that looks like:</p>
+                    </div>
+                    <div class="mt-16" id="process-tabs">
+                        <div class="flex justify-center flex-wrap gap-3 md:gap-4 mb-10">
+                            <button data-tab="dashboard" class="process-tab font-bold py-3 px-6 rounded-md text-base transition-all duration-300 bg-accent text-background">Dashboards</button>
+                            <button data-tab="reporting" class="process-tab font-bold py-3 px-6 rounded-md text-base transition-all duration-300 bg-background text-text-primary hover:bg-background/80">Automated Reporting</button>
+                            <button data-tab="rag" class="process-tab font-bold py-3 px-6 rounded-md text-base transition-all duration-300 bg-background text-text-primary hover:bg-background/80">Intelligent Search</button>
+                            <button data-tab="forecasting" class="process-tab font-bold py-3 px-6 rounded-md text-base transition-all duration-300 bg-background text-text-primary hover:bg-background/80">Forecasting</button>
+                        </div>
+                        <div class="bg-background p-4 md:p-8 rounded-xl border border-text-secondary/10 shadow-2xl shadow-background">
+                            <div class="grid lg:grid-cols-2 gap-8 items-center" data-tab-content="dashboard">
+                                <div class="p-4"><h3 class="font-heading text-3xl font-bold text-accent mb-4">Dashboards</h3><p class="text-text-secondary text-lg">Transform raw data into interactive, real-time dashboards for instant insights.</p></div>
+                                <div class="h-72 bg-primary rounded-lg flex items-center justify-center p-4"><div class="w-full h-full border border-text-secondary/20 rounded-lg bg-background/50 p-4 flex gap-4 shadow-inner"><div class="w-1/3 space-y-4"><div class="h-10 bg-accent/30 rounded-md"></div><div class="h-5 bg-text-secondary/30 rounded-md"></div><div class="h-5 bg-text-secondary/30 rounded-md w-2/3"></div><div class="h-16 bg-accent/20 rounded-md"></div><div class="h-5 bg-text-secondary/30 rounded-md w-4/5"></div></div><div class="w-2/3 flex flex-col"><div class="h-5 bg-text-secondary/30 rounded-md w-1/2 mb-4"></div><div class="flex-grow flex items-end gap-2 px-1"><div class="w-1/4 h-1/3 bg-accent/60 rounded-t-md"></div><div class="w-1/4 h-2/3 bg-accent/60 rounded-t-md"></div><div class="w-1/4 h-1/2 bg-accent/60 rounded-t-md"></div><div class="w-1/4 h-3/4 bg-accent/60 rounded-t-md"></div></div><div class="h-px bg-text-secondary/30 mt-2"></div></div></div></div>
+                            </div>
+                            <div class="hidden grid lg:grid-cols-2 gap-8 items-center" data-tab-content="reporting">
+                                <div class="p-4"><h3 class="font-heading text-3xl font-bold text-accent mb-4">Automated Reporting</h3><p class="text-text-secondary text-lg">Generate complex financial or operational reports automatically, saving hours of manual work.</p></div>
+                                <div class="h-72 bg-primary rounded-lg flex items-center justify-center p-4"><div class="w-full h-full border border-text-secondary/20 rounded-lg bg-background/50 p-6 space-y-4 shadow-inner"><div class="h-8 w-1/2 bg-accent/30 rounded-md"></div><div class="h-4 bg-text-secondary/30 rounded-md"></div><div class="h-4 bg-text-secondary/30 rounded-md w-5/6"></div><div class="h-4 bg-text-secondary/30 rounded-md w-3/4"></div><div class="h-4 bg-text-secondary/30 rounded-md w-4/6"></div><div class="h-4 bg-text-secondary/30 rounded-md w-5/6"></div><div class="h-4 bg-text-secondary/30 rounded-md w-1/2"></div></div></div>
+                            </div>
+                            <div class="hidden grid lg:grid-cols-2 gap-8 items-center" data-tab-content="rag">
+                                <div class="p-4"><h3 class="font-heading text-3xl font-bold text-accent mb-4">Intelligent Search</h3><p class="text-text-secondary text-lg">Ask questions in plain English and get answers from your company's documents and data.</p></div>
+                                <div class="h-72 bg-primary rounded-lg flex items-center justify-center p-4"><div class="w-full h-full border border-text-secondary/20 rounded-lg bg-background/50 p-4 flex flex-col gap-4 shadow-inner"><div class="h-12 border-2 border-accent/50 rounded-lg bg-primary flex items-center px-4"><p class="text-text-primary text-base">What were our Q3 profits for the retail sector?</p><div class="w-5 h-5 bg-accent/80 rounded-full ml-auto"></div></div><div class="h-full bg-primary/50 rounded-lg p-4 space-y-3"><div class="h-4 bg-accent/30 rounded w-1/3"></div><div class="h-3 bg-text-secondary/30 rounded w-full"></div><div class="h-3 bg-text-secondary/30 rounded w-5/6"></div><div class="h-3 bg-text-secondary/30 rounded w-full"></div></div></div></div>
+                            </div>
+                            <div class="hidden grid lg:grid-cols-2 gap-8 items-center" data-tab-content="forecasting">
+                                <div class="p-4"><h3 class="font-heading text-3xl font-bold text-accent mb-4">Forecasting</h3><p class="text-text-secondary text-lg">Leverage AI to predict trends, forecast sales, and make data-driven decisions.</p></div>
+                                <div class="h-72 bg-primary rounded-lg flex items-center justify-center p-4"><div class="w-full h-full border border-text-secondary/20 rounded-lg bg-background/50 p-4 flex items-end gap-3 shadow-inner"><div class="w-1/5 h-1/4 bg-text-secondary/40 rounded-t-md"></div><div class="w-1/5 h-1/3 bg-text-secondary/40 rounded-t-md"></div><div class="w-1/5 h-1/2 bg-text-secondary/40 rounded-t-md"></div><div class="w-1/5 h-2/3 bg-accent/60 rounded-t-md relative flex items-end border-t-2 border-accent"><div class="w-full h-full bg-gradient-to-t from-accent/40 to-transparent"></div></div><div class="w-1/5 h-3/4 bg-accent/60 rounded-t-md relative flex items-end border-t-2 border-accent"><div class="w-full h-full bg-gradient-to-t from-accent/40 to-transparent"></div></div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        const Services = () => `
+            <section id="solutions" class="py-24 sm:py-32 js-scroll-anim">
+                <div class="container mx-auto px-4 sm:px-6">
+                    <div class="text-center max-w-4xl mx-auto">
+                        <h2 class="font-heading text-4xl md:text-5xl font-extrabold text-text-heading">Our Core Solutions</h2>
+                        <p class="mt-6 text-lg md:text-xl text-text-secondary">We deliver tangible results through four key pillars of modernization.</p>
+                    </div>
+                    <div class="mt-20 grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        ${services.map(service => `
+                            <div class="bg-primary border border-text-secondary/10 rounded-2xl flex flex-col group hover:-translate-y-2 transition-transform duration-300 hover:border-accent/50 shadow-lg hover:shadow-accent/10 overflow-hidden">
+                                <img src="${service.cardImageUrl}" alt="${service.title} illustration" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"/>
+                                <div class="p-8 flex flex-col flex-grow">
+                                    <div class="bg-background text-accent w-16 h-16 rounded-full flex items-center justify-center mb-6 -mt-20 self-start border-4 border-primary shadow-lg">
+                                        ${serviceIcons[service.id]}
+                                    </div>
+                                    <h3 class="font-heading text-2xl font-bold text-text-heading group-hover:text-accent transition-colors duration-300 mb-4">${service.title}</h3>
+                                    <p class="text-text-secondary mb-8 flex-grow">${service.introduction.substring(0, 110)}...</p>
+                                    <button data-navigate="${service.id}" class="font-sans text-base text-accent font-bold hover:opacity-80 transition-opacity duration-300 mt-auto self-start flex items-center gap-2">
+                                        Learn More <span aria-hidden="true" class="group-hover:translate-x-1 transition-transform duration-200">&rarr;</span>
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </section>
+        `;
+
+        const Contact = () => `
+            <section id="contact" class="py-24 sm:py-32 text-center relative overflow-hidden bg-primary js-scroll-anim">
+                 <div class="absolute -bottom-1/2 -left-1/4 w-full h-full bg-accent/5 rounded-full blur-3xl"></div>
+                 <div class="absolute -top-1/2 -right-1/4 w-3/4 h-3/4 bg-accent/10 rounded-full blur-3xl"></div>
+                <div class="container mx-auto px-4 sm:px-6 relative">
+                    <h2 class="font-heading text-4xl md:text-5xl font-extrabold text-text-heading">Ready to build a resilient, modern business?</h2>
+                    <p class="mt-8 max-w-3xl mx-auto text-lg md:text-xl text-text-secondary">Let's start the conversation. Your initial consultation is free, with no obligation. We'll assess your current state and provide a clear, actionable roadmap for your modernization journey.</p>
+                    <div class="mt-12">
+                        <button data-open-modal class="inline-block bg-accent hover:bg-opacity-80 text-background font-bold py-4 px-12 rounded-md text-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 hover:shadow-accent/30">Get Your Free Assessment</button>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        const Footer = () => `
+            <footer class="bg-background border-t border-primary">
+              <div class="container mx-auto px-6 py-12">
+                <div class="md:flex md:justify-between">
+                  <div class="mb-6 md:mb-0">
+                     <button data-navigate="home" class="flex items-center gap-3 text-xl font-bold text-text-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm">
+                      ${Logo()}
+                      <span class="self-center text-2xl font-semibold whitespace-nowrap text-text-heading">Cloud Pioneers</span>
+                    </button>
+                    <p class="mt-4 text-text-secondary max-w-xs">Smart Solutions for Modern Business.</p>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 sm:gap-10">
+                    <div>
+                      <h2 class="mb-6 text-sm font-semibold text-text-heading uppercase tracking-wider">Solutions</h2>
+                      <ul class="text-text-secondary space-y-4">
+                         <li><button data-navigate="modern-workspace" class="hover:text-accent transition-colors duration-200">Modern Workspace</button></li>
+                         <li><button data-navigate="ai-automation" class="hover:text-accent transition-colors duration-200">AI & Automation</button></li>
+                         <li><button data-navigate="infrastructure-modernization" class="hover:text-accent transition-colors duration-200">Infrastructure</button></li>
+                         <li><button data-navigate="work-from-anywhere" class="hover:text-accent transition-colors duration-200">Work From Anywhere</button></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h2 class="mb-6 text-sm font-semibold text-text-heading uppercase tracking-wider">Legal</h2>
+                      <ul class="text-text-secondary space-y-4">
+                        <li><a href="#" class="hover:text-accent transition-colors duration-200">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors duration-200">Terms &amp; Conditions</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-6 border-primary/50 sm:mx-auto lg:my-8" />
+                <div class="sm:flex sm:items-center sm:justify-between">
+                  <span class="text-sm text-text-secondary sm:text-center">© ${new Date().getFullYear()} Cloud Pioneers™. All Rights Reserved.</span>
+                </div>
+              </div>
+            </footer>
+        `;
+        
+        const HomePage = () => `
+            <div class="overflow-x-hidden font-sans">
+              <main class="flex-grow">
+                ${Hero()}
+                ${WhyUs()}
+                ${Process()}
+                ${Services()}
+                ${Contact()}
+              </main>
+            </div>
+        `;
+
+        const ServiceDetailPage = (service) => `
+            <div class="js-scroll-anim container mx-auto px-4 sm:px-6 py-24 md:py-32">
+                <header class="max-w-5xl mb-20 md:mb-24">
+                    <button data-navigate="home" class="text-accent hover:opacity-80 font-bold transition-opacity duration-200 flex items-center gap-2 mb-10 text-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                        Back to Solutions
+                    </button>
+                    <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-text-heading">${service.pageTitle}</h1>
+                </header>
+
+                <div class="relative">
+                    <div class="absolute left-0 lg:left-[calc(2rem+30px)] top-0 h-full w-px bg-primary hidden md:block"></div>
+                    <div class="lg:grid lg:grid-cols-[1fr_2fr] gap-16 items-start py-16 js-scroll-anim"><div class="lg:sticky lg:top-32 flex items-center gap-5 lg:flex-col lg:items-start lg:text-left mb-8 lg:mb-0"><div class="text-accent bg-primary p-4 rounded-xl border border-text-secondary/10">${pageSectionIcons.problem}</div><h2 class="font-heading text-3xl font-bold text-text-heading">The Problem</h2></div><div class="text-text-secondary text-lg leading-relaxed space-y-6"><p>${service.introduction}</p></div></div>
+                    ${service.complication ? `<div class="lg:grid lg:grid-cols-[1fr_2fr] gap-16 items-start py-16 js-scroll-anim"><div class="lg:sticky lg:top-32 flex items-center gap-5 lg:flex-col lg:items-start lg:text-left mb-8 lg:mb-0"><div class="text-accent bg-primary p-4 rounded-xl border border-text-secondary/10">${pageSectionIcons.complication}</div><h2 class="font-heading text-3xl font-bold text-text-heading">The Complication</h2></div><div class="text-text-secondary text-lg leading-relaxed space-y-6"><p>${service.complication}</p></div></div>` : ''}
+                    <div class="lg:grid lg:grid-cols-[1fr_2fr] gap-16 items-start py-16 js-scroll-anim"><div class="lg:sticky lg:top-32 flex items-center gap-5 lg:flex-col lg:items-start lg:text-left mb-8 lg:mb-0"><div class="text-accent bg-primary p-4 rounded-xl border border-text-secondary/10">${pageSectionIcons.solution}</div><h2 class="font-heading text-3xl font-bold text-text-heading">The Solution</h2></div><div class="text-text-secondary text-lg leading-relaxed space-y-6"><p>${service.solution}</p></div></div>
+                    ${service.transformation ? `<div class="lg:grid lg:grid-cols-[1fr_2fr] gap-16 items-start py-16 js-scroll-anim"><div class="lg:sticky lg:top-32 flex items-center gap-5 lg:flex-col lg:items-start lg:text-left mb-8 lg:mb-0"><div class="text-accent bg-primary p-4 rounded-xl border border-text-secondary/10">${pageSectionIcons.transformation}</div><h2 class="font-heading text-3xl font-bold text-text-heading">The Transformation</h2></div><div class="text-text-secondary text-lg leading-relaxed space-y-6"><p>${service.transformation}</p></div></div>` : ''}
+                </div>
+                
+                <div class="mt-24 bg-primary p-8 md:p-12 rounded-2xl border border-text-secondary/10">
+                    <h2 class="font-heading text-4xl font-bold text-text-heading mb-12 text-center">What We Deliver</h2>
+                    <div class="grid lg:grid-cols-2 gap-12 items-start">
+                        <div class="space-y-10">
+                            ${service.deeperDive.keyFeatures.map(feature => `
+                                <div class="bg-background p-6 rounded-xl border border-text-secondary/10 shadow-md">
+                                    <h4 class="font-heading font-bold text-2xl text-accent mb-4">${feature.title}</h4>
+                                    <div class="space-y-4">
+                                        <div><span class="text-text-secondary text-sm font-semibold uppercase tracking-wider">Replaces:</span><p class="text-text-secondary mt-1 line-through decoration-red-500/50">${feature.replaces}</p></div>
+                                        <div><span class="text-accent/90 text-sm font-semibold uppercase tracking-wider">With:</span><p class="text-text-primary mt-1">${feature.with}</p></div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="hidden lg:block sticky top-32">
+                             <img src="${service.imageUrl}" alt="${service.title}" class="w-full h-[600px] object-cover rounded-xl shadow-2xl shadow-background" />
+                        </div>
+                    </div>
+                </div>
+
+                ${service.industryExamples && service.industryExamples.length > 0 ? `
+                  <div class="mt-24">
+                      <h2 class="font-heading text-4xl font-bold text-text-heading mb-12 text-center">Real-World Examples</h2>
+                      <div class="grid md:grid-cols-2 gap-8">
+                          ${service.industryExamples.map(example => `
+                              <div class="bg-primary border border-text-secondary/10 p-8 rounded-2xl shadow-lg hover:shadow-accent/10 transition-shadow duration-300">
+                                  <h3 class="font-heading text-2xl font-bold text-accent mb-3">${example.industry}</h3>
+                                  <p class="text-text-secondary text-lg">${example.useCase}</p>
+                              </div>
+                          `).join('')}
+                      </div>
+                  </div>
+                ` : ''}
+
+                ${service.faqs && service.faqs.length > 0 ? `
+                 <div class="mt-24 max-w-4xl mx-auto">
+                    <h2 class="font-heading text-4xl font-bold text-text-heading mb-12 text-center">Frequently Asked Questions</h2>
+                    <div class="bg-primary p-6 md:p-8 rounded-2xl border border-text-secondary/10" id="faq-accordion">
+                      ${service.faqs.map((item, index) => `
+                        <div class="border-b border-white/10">
+                            <button data-faq-index="${index}" class="w-full flex justify-between items-center text-left py-6 px-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm">
+                                <span class="text-lg font-semibold text-text-heading">${item.question}</span>
+                                <svg class="w-6 h-6 text-accent transform transition-transform duration-300 ${index === 0 ? 'rotate-180' : ''}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="faq-answer grid overflow-hidden transition-all duration-500 ease-in-out text-text-secondary ${index === 0 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}">
+                                <div class="overflow-hidden"><p class="pb-6 pr-8 text-base leading-relaxed">${item.answer}</p></div>
+                            </div>
+                        </div>
+                      `).join('')}
+                    </div>
+                 </div>
+                ` : ''}
+
+               <div class="text-center mt-24">
+                   <button data-open-modal class="inline-block bg-accent hover:bg-opacity-80 text-background font-bold py-4 px-12 rounded-md text-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 hover:shadow-accent/30">
+                       ${service.cta}
+                    </button>
+               </div>
+            </div>
+        `;
+        
+        const ContactForm = () => `
+            <h2 class="font-heading text-3xl font-bold text-text-heading mb-2">Request a Free Assessment</h2>
+            <p class="text-text-secondary mb-8">Tell us a bit about your needs, and we'll schedule a no-obligation consultation.</p>
+            <form id="contact-form" action="https://formspree.io/f/YOUR_UNIQUE_ID" method="POST" class="space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div><label for="name" class="block text-sm font-medium text-text-primary mb-2">Full Name</label><input type="text" name="name" id="name" required class="w-full bg-background border border-text-secondary/20 rounded-md py-3 px-4 text-text-primary focus:ring-2 focus:ring-accent focus:outline-none transition" /></div>
+                  <div><label for="company" class="block text-sm font-medium text-text-primary mb-2">Company Name</label><input type="text" name="company" id="company" class="w-full bg-background border border-text-secondary/20 rounded-md py-3 px-4 text-text-primary focus:ring-2 focus:ring-accent focus:outline-none transition" /></div>
+                </div>
+                <div><label for="email" class="block text-sm font-medium text-text-primary mb-2">Work Email</label><input type="email" name="email" id="email" required class="w-full bg-background border border-text-secondary/20 rounded-md py-3 px-4 text-text-primary focus:ring-2 focus:ring-accent focus:outline-none transition" /></div>
+                <div><label for="message" class="block text-sm font-medium text-text-primary mb-2">What are you looking to solve?</label><textarea name="message" id="message" rows="4" required class="w-full bg-background border border-text-secondary/20 rounded-md py-3 px-4 text-text-primary focus:ring-2 focus:ring-accent focus:outline-none transition" placeholder="e.g., migrate servers to the cloud, automate our invoicing, improve remote work security..."></textarea></div>
+                <div id="form-status"></div>
+                <div><button type="submit" class="w-full bg-accent hover:bg-opacity-80 text-background font-bold py-4 px-8 rounded-md text-lg transition-all duration-300 disabled:bg-accent/50 disabled:cursor-not-allowed flex items-center justify-center">Send Request</button></div>
+            </form>
+        `;
+        
+        const ContactFormSuccess = () => `
+             <div class="text-center">
+                <div class="w-16 h-16 bg-accent/20 text-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                </div>
+              <h2 class="font-heading text-3xl font-bold text-text-heading mb-4">Thank You!</h2>
+              <p class="text-text-secondary text-lg mb-8">Your assessment request has been sent. We'll be in touch within one business day.</p>
+              <button data-close-modal class="bg-accent hover:bg-opacity-80 text-background font-bold py-3 px-8 rounded-md text-base transition-all duration-300">Close</button>
+            </div>
+        `;
+
+        // --- APP LOGIC & STATE ---
+        const appContainer = document.getElementById('app-container');
+        const contactModal = document.getElementById('contact-modal');
+        const modalContent = document.getElementById('modal-content');
+        let currentPageId = 'home'; // App state for current page
+
+        /**
+         * Navigates to a new page, updates the URL, and re-renders the content.
+         * This function acts as the central router.
+         * @param {string} pageId - The ID of the page to show ('home' or a service ID).
+         * @param {string} [anchor] - An optional element ID to scroll to.
+         */
+        const navigate = (pageId, anchor = null) => {
+            const isNewPage = pageId !== currentPageId;
+            currentPageId = pageId;
+
+            // Update browser URL without a full reload
+            const url = new URL(window.location.href);
+            if (pageId === 'home') {
+                url.searchParams.delete('page');
+            } else {
+                url.searchParams.set('page', pageId);
+            }
+            window.history.pushState({ pageId }, '', url);
+
+            // Render the new page content
+            renderPage(pageId);
+
+            // Handle scrolling
+            if (anchor) {
+                // If on the same page, scroll immediately. If new page, wait slightly for render.
+                setTimeout(() => {
+                    document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth' });
+                }, isNewPage ? 100 : 0);
+            } else {
+                window.scrollTo(0, 0);
+            }
+        };
+        
+        /**
+         * Renders the content for a given page ID into the main app container.
+         * After rendering, it re-attaches all necessary event listeners.
+         * @param {string} pageId - The ID of the page to render.
+         */
+        const renderPage = (pageId) => {
+            const service = services.find(s => s.id === pageId);
+            let content = '';
+
+            if (service) {
+                content = `<main class="flex-grow">${ServiceDetailPage(service)}</main>`;
+            } else {
+                content = HomePage();
+            }
+
+            appContainer.innerHTML = `
+                ${Header()}
+                ${content}
+                ${Footer()}
+            `;
+            
+            // Critical step: Re-attach event listeners to the newly created DOM elements
+            addEventListeners();
+            setupScrollAnimations();
+        };
+
+        /**
+         * Attaches all event listeners for the entire application.
+         * This needs to be called every time the page content is re-rendered.
+         */
+        const addEventListeners = () => {
+            // --- Navigation Listeners ---
+            document.querySelectorAll('[data-navigate]').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = el.dataset.navigate;
+                    const anchor = el.dataset.anchor || null;
+                    // Close mobile menus on navigation
+                    document.getElementById('mobile-menu')?.classList.add('hidden');
+                    document.getElementById('solutions-mobile-dropdown')?.classList.add('hidden');
+                    navigate(pageId, anchor);
+                });
+            });
+
+            // --- Anchor Link Listeners (for same-page scrolling) ---
+            document.querySelectorAll('[data-anchor-link]').forEach(el => {
+                el.addEventListener('click', e => {
+                    e.preventDefault();
+                    const targetId = el.getAttribute('href').substring(1);
+                    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            // --- Modal Listeners ---
+            document.querySelectorAll('[data-open-modal]').forEach(el => el.addEventListener('click', openModal));
+            document.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', closeModal));
+            
+            // --- Header Menu Logic ---
+            const solutionsDesktopMenu = document.getElementById('solutions-desktop-menu');
+            let desktopMenuTimeout;
+            if (solutionsDesktopMenu) {
+                const button = solutionsDesktopMenu.querySelector('button');
+                const dropdown = solutionsDesktopMenu.querySelector('div');
+                button.addEventListener('mouseenter', () => {
+                    clearTimeout(desktopMenuTimeout);
+                    dropdown.classList.remove('hidden');
+                });
+                 button.addEventListener('mouseleave', () => {
+                    desktopMenuTimeout = setTimeout(() => dropdown.classList.add('hidden'), 200);
+                });
+                dropdown.addEventListener('mouseenter', () => clearTimeout(desktopMenuTimeout));
+                dropdown.addEventListener('mouseleave', () => dropdown.classList.add('hidden'));
+            }
+
+            // --- Mobile Menu Logic ---
+            document.getElementById('mobile-menu-toggle')?.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.toggle('hidden');
+            });
+            document.getElementById('solutions-mobile-toggle')?.addEventListener('click', () => {
+                document.getElementById('solutions-mobile-dropdown').classList.toggle('hidden');
+            });
+
+            // --- Process Tabs Logic ---
+            const processTabsContainer = document.getElementById('process-tabs');
+            if(processTabsContainer) {
+                const tabs = processTabsContainer.querySelectorAll('.process-tab');
+                const contents = processTabsContainer.querySelectorAll('[data-tab-content]');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const target = tab.dataset.tab;
+                        tabs.forEach(t => {
+                            t.classList.remove('bg-accent', 'text-background');
+                            t.classList.add('bg-background', 'text-text-primary', 'hover:bg-background/80');
+                        });
+                        tab.classList.add('bg-accent', 'text-background');
+                        tab.classList.remove('bg-background', 'text-text-primary', 'hover:bg-background/80');
+                        
+                        contents.forEach(content => {
+                            if (content.dataset.tabContent === target) {
+                                content.classList.remove('hidden');
+                                content.classList.add('grid');
+                            } else {
+                                content.classList.add('hidden');
+                                content.classList.remove('grid');
+                            }
+                        });
+                    });
+                });
+            }
+
+            // --- FAQ Accordion Logic ---
+            const faqContainer = document.getElementById('faq-accordion');
+            if (faqContainer) {
+                const faqButtons = faqContainer.querySelectorAll('button[data-faq-index]');
+                faqButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const index = button.dataset.faqIndex;
+                        const allAnswers = faqContainer.querySelectorAll('.faq-answer');
+                        const allIcons = faqContainer.querySelectorAll('svg');
+                        
+                        allAnswers.forEach((answer, i) => {
+                            const icon = faqButtons[i].querySelector('svg');
+                            if (i.toString() === index) {
+                                // Toggle the clicked item
+                                const isOpen = answer.classList.contains('grid-rows-[1fr]');
+                                if(isOpen) {
+                                    answer.classList.replace('grid-rows-[1fr]', 'grid-rows-[0fr]');
+                                    answer.classList.replace('opacity-100', 'opacity-0');
+                                    icon?.classList.remove('rotate-180');
+                                } else {
+                                     answer.classList.replace('grid-rows-[0fr]', 'grid-rows-[1fr]');
+                                     answer.classList.replace('opacity-0', 'opacity-100');
+                                     icon?.classList.add('rotate-180');
+                                }
+                            } else {
+                                // Close all other items
+                                answer.classList.replace('grid-rows-[1fr]', 'grid-rows-[0fr]');
+                                answer.classList.replace('opacity-100', 'opacity-0');
+                                icon?.classList.remove('rotate-180');
+                            }
+                        });
+                    });
+                });
+            }
+        };
+
+        /**
+         * Sets up the Intersection Observer for all elements that should animate on scroll.
+         */
+        const setupScrollAnimations = () => {
+            const scrollObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            document.querySelectorAll('.js-scroll-anim').forEach(el => scrollObserver.observe(el));
+        };
+        
+        /**
+         * Handles opening the contact modal dialog.
+         */
+        const openModal = () => {
+            modalContent.innerHTML = ContactForm();
+            contactModal.showModal();
+            document.body.style.overflow = 'hidden';
+            // Attach form submit listener
+            document.getElementById('contact-form')?.addEventListener('submit', handleFormSubmit);
+        };
+
+        /**
+         * Handles closing the contact modal dialog.
+         */
+        const closeModal = () => {
+            contactModal.close();
+        };
+
+        /**
+         * Handles the submission of the contact form.
+         * @param {Event} e - The form submission event.
+         */
+        const handleFormSubmit = async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const submitButton = form.querySelector('button[type="submit"]');
+            const statusDiv = document.getElementById('form-status');
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+            statusDiv.innerHTML = '';
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    modalContent.innerHTML = ContactFormSuccess();
+                    // Re-attach close listener for the new button
+                    modalContent.querySelector('[data-close-modal]')?.addEventListener('click', closeModal);
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                console.error(error);
+                statusDiv.innerHTML = `<p class="text-red-400 text-sm">Oops! Something went wrong. Please try again.</p>`;
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Request';
+            }
+        };
+
+
+        // --- INITIALIZATION ---
+        // This code runs when the page first loads.
+
+        // Initial render based on URL
+        const initialParams = new URLSearchParams(window.location.search);
+        const initialPage = initialParams.get('page') || 'home';
+        navigate(initialPage);
+        
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', (e) => {
+            const pageId = e.state?.pageId || 'home';
+            currentPageId = pageId; // Update state without pushing to history
+            renderPage(pageId);
+        });
+
+        // Set up modal listeners
+        contactModal.addEventListener('close', () => {
+             document.body.style.overflow = '';
+        });
+        contactModal.addEventListener('click', (e) => {
+            if(e.target === contactModal) closeModal();
+        });
+
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
