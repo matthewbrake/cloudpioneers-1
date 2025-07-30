@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CloudPioneers</title>
+
+    <!-- Tailwind CSS via CDN -->
+    <!-- This script loads the Tailwind CSS framework, which allows for utility-first styling. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <!-- Preconnect hints for performance. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Importing the 'Sora' font for headings and 'Inter' for body text. -->
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Global CSS Styles -->
+    <style>
+      html {
+        /* Enables smooth scrolling when navigating to anchor links (e.g., #contact). */
+        scroll-behavior: smooth;
+      }
+    </style>
+
+    <!-- Tailwind CSS JIT (Just-In-Time) Configuration -->
+    <!-- This script configures Tailwind's theme in the browser. -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            // Custom color palette for the website.
+            colors: {
+              'background': '#0D1117', // Very dark charcoal
+              'primary': '#161B22',    // Lighter charcoal for cards
+              'accent': '#00A3FF',     // Vibrant, electric blue
+              'text-primary': '#E6EDF3', // Light grey for primary text
+              'text-secondary': '#7D8590',// Mid grey for secondary text
+              'text-heading': '#FFFFFF',  // Pure white for headings
+            },
+            // Custom font families.
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'], // Default body font
+              heading: ['Sora', 'sans-serif'], // Font for headings
+            }
+          }
+        }
+      }
+    </script>
+
+  <!-- ES Module Import Map -->
+  <!-- This maps bare module specifiers (like "react") to full CDN URLs.
+       It's crucial for running React without a build step. This version is more
+       explicit to ensure `react-dom/client` is resolved correctly. -->
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react-dom/client": "https://esm.sh/react-dom@^19.1.0/client",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-background text-text-primary font-sans antialiased">
+    <!-- The root div where the React application will be mounted. -->
+    <div id="root"></div>
+    
+    <!-- Main application script -->
+    <!-- This loads the main TypeScript file as a module, starting the React app. -->
+    <script type="module" src="./index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
